@@ -21,7 +21,17 @@ function App() {
     try {
       const response = await fetch(`${url}/chores`);
       const data = await response.json();
-      setAllChores(data);
+      const sortedData = data.sort((a, b) => {
+    
+      const dateA = a.date + ' ' + a.time;
+      const dateB = b.date + ' ' + b.time;
+      
+      if (!a.date || !a.time) return 1;
+      if (!b.date || !b.time) return -1;
+      
+      return new Date(dateA) - new Date(dateB);
+    });
+      setAllChores(sortedData);
     } catch (error) {
       console.error('Failed to fetch chores:', error);
       setAllChores([]);
